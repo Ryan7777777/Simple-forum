@@ -1,8 +1,9 @@
+require('dotenv').config();
 const db = require('./config/db');
 const express = require('./config/express');
 
 const app = express();
-const port = 3668;
+const port = 4255;
 
 // Test connection to MySQL on start-up
 async function testDbConnection() {
