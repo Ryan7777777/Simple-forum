@@ -1,5 +1,5 @@
 {
-  "name": "Forum-API",
+  "name": "n",
   "description": "A simple chat API.",
   "version": "0.0.1",
   "keywords": [
@@ -12,6 +12,20 @@
   "dependencies": {
     "express": "^4.15.3",
     "mysql": "^2.13.0",
-    "body-parser": "^1.17.2"
-  }
+    "body-parser": "^1.17.2",
+    "promise-mysql": "^3.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ryan7777777/Simple-forum.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ryan7777777/Simple-forum/issues"
+  },
+  "homepage": "https://github.com/Ryan7777777/Simple-forum#readme"
 }
