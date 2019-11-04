@@ -1,7 +1,7 @@
 {
   "name": "Forum-API",
   "description": "A simple chat API.",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "keywords": [
     "chat",
     "application",
@@ -9,11 +9,9 @@
   ],
   "author": "Ryan Leung <ryanleung7777@gmail.com>",
   "main": "main.js",
-  "version": "0.0.1",
   "dependencies": {
     "express": "^4.15.3",
     "mysql": "^2.13.0",
     "body-parser": "^1.17.2"
   }
-    
-  }
+}
