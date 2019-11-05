@@ -16,5 +16,8 @@ module.exports = function () {
         next();
     })
     app.rootUrl = '/api/v1';
+
+    //ROUTES//
+    require('../app/routes/users.routes')(app);
     return app;
 };
