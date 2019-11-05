@@ -1,6 +1,6 @@
-const Users = require('../model/users .model')
+const Users = require('../model/users .model');
 const validator = require('../services/validator');
-
+const passwords = require('../services/passwords');
 function isValidEmail(email){
     return email.includes('@')
 }
@@ -9,7 +9,6 @@ exports.create = async function(req,res){
         'User',
         req.body
     );
-    console.log(validation)
     //Valifation for email address
     if(validation === true && !isValidEmail(req.body.email)){
         validation = "data.email must be a valid email address"
@@ -38,10 +37,10 @@ exports.create = async function(req,res){
             }
         }
     }
-}
+};
 exports.login = async function(req,res) {
     try {
-        const foundUser = await Users.findByUsernameOrEmail(req.body.username, req.body.email);
+        const foundUser = await Users.findByUser(req.body.username, req.body.email);
         if (foundUser != null) {
             const passwordCorrect = await passwords.compare(req.body.password, foundUser.password);
             if (passwordCorrect) {
@@ -63,5 +62,20 @@ exports.login = async function(req,res) {
         res.statusMessage = 'Internal Server Error';
         res.status(500)
             .send();
+    }
+};
+exports.logout = async function(req,res) {
+    const id = req.authenticatedId;
+    const token = req.header('X-Authorization');
+    try{
+        await Users.logout(id,token);
+        res.statutsMessage = "Succceddful";
+        res.status(200)
+            .send();
+    }catch(err){
+        if(!err.hasBeenLogged) console.log(err)
+            res.statusMessage = "Internal Server Error";
+            res.status(500)
+                .send();
     }
 }
