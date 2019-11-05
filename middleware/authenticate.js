@@ -1,8 +1,8 @@
-const db = require('../../config/db');
+const db = require('../config/db');
 
 
 async function findUserIdByToken(token) {
-    const findSQL = 'SELECT user_id FROM User WHERE auth_token = ?';
+    const findSQL = 'SELECT user_id FROM User WHERE user_authentication = ?';
 
     if (!token) {
         // No token provided, hence can't fetch matching user
@@ -33,7 +33,7 @@ exports.loginRequired = async function (req, res, next) {
             res.status(401)
                 .send();
         } else {
-            req.authenticatedUserId = result.user_id.toString();
+            req.authenticatedId = result.user_id.toString();
             next();
         }
     } catch (err) {
