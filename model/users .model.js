@@ -1,6 +1,8 @@
 const db = require('../config/db');
 const passwords = require('../services/passwords');
 const errors = require ('../services/errors')
+const randtoken = require('rand-token');
+
 
 exports.create = async function (user) {
     const createSQL = 'INSERT INTO User (user_name, user_email, user_first_name, user_last_name, user_password) VALUES (?, ?, ?, ?, ?)';
@@ -20,3 +22,52 @@ exports.create = async function (user) {
         throw err;
     }
 };
+exports.findByUser = async function (username, email) {
+    const findSQL = 'SELECT user_id, user_name, user_first_name, user_last_name, user_password, user_email ' +
+        'FROM User WHERE user_name = ? OR user_email = ?';
+
+    try {
+        const rows = await db.getPool().query(findSQL, [username, email]);
+        if (rows.length < 1) {
+            return null;
+        } else {
+            let foundUser = rows[0];
+            return {
+                'userId': foundUser.user_id,
+                'username': foundUser.user_name,
+                'givenName': foundUser.user_first_name,
+                'familyName': foundUser.user_last_name,
+                'password': foundUser.user_password,
+                'email': foundUser.user_email,
+            }
+        }
+    } catch (err) {
+        errors.logSqlError(err);
+        return null;
+    }
+};
+exports.login = async function (userId) {
+    const loginSQL = 'UPDATE User SET user_authentication = ? WHERE user_id = ?';
+    const token = randtoken.generate(32);
+
+    try {
+        await db.getPool().query(loginSQL, [token, userId]);
+        return {
+            'userId': userId,
+            'token': token
+        }
+    } catch (err) {
+        errors.logSqlError(err);
+        throw err;
+    }
+};
+exports.logout =async function(userId){
+    const logoutSQL = 'UPDATE User Set user_authentication = NULL WHERE user_id = ?';
+    try{
+        await db.getPool().query(logoutSQL,[userId]);
+    } catch(err){
+        error.logSqlError(err);
+        throw err;
+    }
+};
+
