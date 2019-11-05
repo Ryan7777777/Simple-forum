@@ -1,0 +1,33 @@
+{
+  "User": {
+      "username": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 20
+    },
+    "email": {
+      "type": "string",
+      "minlength": 1,
+      "format": "email"
+    },
+    "given_name":{
+      "type": "string",
+      "minLength": 1
+    },
+    "family_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "password": {
+      "minLength": 6,
+      "format": "pasword"
+    },
+    "required": [
+      "username",
+      "email",
+      "given_name",
+      "family_name",
+      "password"
+    ]
+  }
+}
