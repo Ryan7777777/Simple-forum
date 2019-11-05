@@ -7,17 +7,19 @@ const allowCrossOriginRequests = function (req, res, next) {
     next();
 };
 
+
 module.exports = function () {
     // INITIALISE EXPRESS //
     const app = express();
+    app.use(bodyParser.json());
     app.use(allowCrossOriginRequests);
     app.use((req, res, next) => {
         console.log(`##### ${req.method} ${req.path} #####`);
         next();
-    })
+    });
     app.rootUrl = '/api/v1';
 
     //ROUTES//
-    require('../app/routes/users.routes')(app);
+    require('../routes/users.routes')(app);
     return app;
 };
