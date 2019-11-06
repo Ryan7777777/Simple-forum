@@ -1,4 +1,4 @@
-const Users = require('../model/users .model');
+const Users = require('../model/users.model');
 const validator = require('../services/validator');
 const passwords = require('../services/passwords');
 function isValidEmail(email){

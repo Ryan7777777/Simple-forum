@@ -1,4 +1,4 @@
-const Post = require('../model/post .model');
+const Post = require('../model/post.model');
 const validator = require('../services/validator');
 
 exports.create = async function(req,res){
