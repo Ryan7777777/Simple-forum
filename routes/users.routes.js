@@ -8,5 +8,8 @@ module.exports = function (app) {
     app.route(app.rootUrl + '/users/login')
         .post(users.login);
     app.route(app.rootUrl + '/users/logout')
-        .post(authenticate.loginRequired,users.logout)
+        .post(authenticate.loginRequired,users.logout);
+    app.route(app.rootUrl +'/users/namechange/:id')
+        .get(authenticate.setAuthenticatedUser,users.getinfo)
+        .patch(authenticate.loginRequired,users.namechange);
 };
