@@ -36,5 +36,17 @@
         "minLength": 3,
         "maxLength": 20
       }
+    },
+  "Post": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLeungth": 45
+    },
+    "content": {
+      "type":"string",
+      "minLength": 5,
+      "mmxLength": 750
     }
+  }
   }
