@@ -44,10 +44,17 @@ exports.login = async function(req,res) {
         if (foundUser != null) {
             const passwordCorrect = await passwords.compare(req.body.password, foundUser.password);
             if (passwordCorrect) {
-                const loginResult = await Users.login(foundUser.userId);
-                res.statusMessage = 'OK';
-                res.status(200)
-                    .json(loginResult);
+                const nologin = await Users.checkstate(req.body.username, req.body.email)
+                if (nologin == true) {
+                    const loginResult = await Users.login(foundUser.userId);
+                    res.statusMessage = 'OK';
+                    res.status(200)
+                        .json(loginResult);
+                }else{
+                    res.statusMessage = 'Frobidden';
+                    res.status(403)
+                        .send();
+                }
             }
         }
 
@@ -67,24 +74,19 @@ exports.login = async function(req,res) {
 exports.logout = async function(req,res) {
     const id = req.authenticatedId;
     const token = req.header('X-Authorization');
-    if (id != check_id) {
-        res.statusMessage = "Forbidden";
-        res.status(403)
-            .send();
-    } else
-        {
-            try {
-                await Users.logout(id, token);
-                res.statutsMessage = "Succceddful";
-                res.status(200)
-                    .send();
-            } catch (err) {
-                if (!err.hasBeenLogged) console.log(err)
-                res.statusMessage = "Internal Server Error";
-                res.status(500)
-                    .send();
+    {
+        try {
+            await Users.logout(id, token);
+            res.statutsMessage = "Succceddful";
+            res.status(200)
+                .send();
+        }catch (err) {
+            if (!err.hasBeenLogged) console.log(err)
+            res.statusMessage = "Internal Server Error";
+            res.status(500)
+                .send();
             }
-        }
+    }
 };
 exports.getinfo = async function (req, res) {
     const id = req.params.id;

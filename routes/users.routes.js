@@ -4,7 +4,6 @@ const authenticate = require('../middleware/authenticate');
 module.exports = function (app) {
     app.route(app.rootUrl + '/users')
         .post(users.create);
-
     app.route(app.rootUrl + '/users/login')
         .post(users.login);
     app.route(app.rootUrl + '/users/logout')

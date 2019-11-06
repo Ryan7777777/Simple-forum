@@ -70,6 +70,20 @@ exports.logout =async function(userId){
         throw err;
     }
 };
+exports.checkstate = async function(userId,userEmail){
+    const findSQL = 'SELECT  user_authentication FROM User WHERE user_id = ? or user_email = ?';
+    try{
+        const rows = await db.getPool().query(findSQL,[userId,userEmail]);
+        if (rows[0].user_authentication !== null){
+            return false
+        }else {
+            return true
+        }
+    }catch (err) {
+        errors.logSqlError(err);
+        return null;
+    }
+};
 exports.findById = async function (userId) {
     const findSQL = 'SELECT  user_name, user_first_name, user_last_name, user_email ' +
         'FROM User WHERE user_id = ?';
