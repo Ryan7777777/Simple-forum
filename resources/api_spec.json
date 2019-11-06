@@ -1,52 +1,83 @@
 {
   "User": {
-    "username": {
-      "type": "string",
-      "minLength": 3,
-      "maxLength": 20
-    },
-    "email": {
-      "type": "string",
-      "minlength": 1,
-      "format": "email"
-    },
-    "given_name": {
-      "type": "string",
-      "minLength": 1
-    },
-    "family_name": {
-      "type": "string",
-      "minLength": 1
-    },
-    "password": {
-      "minLength": 6,
-      "format": "pasword"
-    },
-    "required": [
-      "username",
-      "email",
-      "given_name",
-      "family_name",
-      "password"
-    ]
+    "title": "User",
+    "type": "object",
+    "properties": {
+      "username": {
+        "type": "string",
+        "minLength": 7,
+        "maxLength": 20
+      },
+      "email": {
+        "type": "string",
+        "minlength": 1,
+        "format": "email"
+      },
+      "given_name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "family_name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "password": {
+        "minLength": 6,
+        "format": "password"
+      },
+      "required": [
+        "username",
+        "email",
+        "given_name",
+        "family_name",
+        "password"
+      ]
+    }
   },
   "User_Name_Update": {
+    "title": "User_Name",
+    "type": "object",
+    "properties": {
       "username": {
         "type": "string",
         "minLength": 3,
         "maxLength": 20
       }
-    },
+    }
+  },
   "Post": {
-    "title": {
-      "type": "string",
-      "minLength": 1,
-      "maxLeungth": 45
-    },
-    "content": {
-      "type":"string",
-      "minLength": 5,
-      "mmxLength": 750
+    "title": "Post",
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "minLength": 1,
+        "maxLeungth": 45
+      },
+      "content": {
+        "type": "string",
+        "minLength": 5,
+        "mmxLength": 750
+      }
+    }
+  },
+  "Password": {
+    "title": "Password",
+    "type": "object",
+    "properties": {
+      "email": {
+        "type": "string",
+        "minlength": 1,
+        "format": "email"
+      },
+      "password": {
+        "minLength": 6,
+        "format": "password"
+      },
+      "newpassword": {
+        "minLength": 6,
+        "format": "password"
+      }
     }
   }
-  }
+}
