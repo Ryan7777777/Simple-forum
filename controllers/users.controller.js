@@ -67,15 +67,70 @@ exports.login = async function(req,res) {
 exports.logout = async function(req,res) {
     const id = req.authenticatedId;
     const token = req.header('X-Authorization');
-    try{
-        await Users.logout(id,token);
-        res.statutsMessage = "Succceddful";
-        res.status(200)
+    if (id != check_id) {
+        res.statusMessage = "Forbidden";
+        res.status(403)
             .send();
-    }catch(err){
-        if(!err.hasBeenLogged) console.log(err)
-            res.statusMessage = "Internal Server Error";
+    } else
+        {
+            try {
+                await Users.logout(id, token);
+                res.statutsMessage = "Succceddful";
+                res.status(200)
+                    .send();
+            } catch (err) {
+                if (!err.hasBeenLogged) console.log(err)
+                res.statusMessage = "Internal Server Error";
+                res.status(500)
+                    .send();
+            }
+        }
+};
+exports.getinfo = async function (req, res) {
+    const id = req.params.id;
+    const isCurrentUser = id === req.authenticatedUserId;
+    const userData = await Users.findById(id, isCurrentUser);
+    if (userData == null) {
+        res.statusMessage = 'Not Found';
+        res.status(404)
+            .send();
+    } else {
+        res.statusMessage = 'OK';
+        res.status(200)
+            .json(userData);
+    }
+};
+exports.namechange = async function(req,res){
+    const id = req.params.id;
+    const check_id = req.authenticatedId;
+    let validation = validator.checkAgainstSchema(
+        'User_Name_Update',
+        req.body
+    );
+    if (validation !== true){
+        res.statusMessage = `Bad Request: ${validation}`;
+        res.status(400)
+            .send()
+
+    } else if (id != check_id){
+        res.statusMessage = "Forbidden";
+        res.status(403)
+            .send();
+    } else if(parseInt(id)<=0 || isNaN(parseInt(id))){
+        res.ststeMessage = "Not Found";
+        res.status(404)
+            .send();
+    } else {
+        try{
+            await  Users.name_modify(id,req.body.username);
+            res.statusMessage = "OK";
+            res.status(200)
+                .send();
+        } catch(error){
+            if (!err.hasBeenLogged) console.error(error);
+            res.statusMessage = 'Internal Server Error';
             res.status(500)
                 .send();
+        }
     }
-}
+};
