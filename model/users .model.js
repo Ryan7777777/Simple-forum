@@ -70,4 +70,35 @@ exports.logout =async function(userId){
         throw err;
     }
 };
+exports.findById = async function (userId) {
+    const findSQL = 'SELECT  user_name, user_first_name, user_last_name, user_email ' +
+        'FROM User WHERE user_id = ?';
+
+    try {
+        const rows = await db.getPool().query(findSQL, [userId]);
+        if (rows.length < 1) {
+            return null;
+        } else {
+            let foundUser = rows[0];
+            return {
+                'username': foundUser.user_name,
+                'email': foundUser.user_email,
+                'first_name': foundUser.user_first_name,
+                'last_name': foundUser.user_last_name
+            }
+        }
+    } catch (err) {
+        errors.logSqlError(err);
+        return null;
+    }
+};
+exports.name_modify = async function(userId,new_name){
+    const name_update_sql = 'UPDATE User Set user_name = ? WHERE user_id = ?';
+    try{
+       await db.getPool().query(name_update_sql,[new_name,userId]);
+    } catch(err){
+        errors.logSqlError(err);
+        throw err;
+    }
+};
 
