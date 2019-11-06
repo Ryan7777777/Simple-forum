@@ -6,9 +6,10 @@ function isValidEmail(email){
 }
 exports.create = async function(req,res){
     let validation = validator.checkAgainstSchema(
-        'User',
+        'User/',
         req.body
     );
+    console.log(validation)
     //Valifation for email address
     if(validation === true && !isValidEmail(req.body.email)){
         validation = "data.email must be a valid email address"
@@ -122,7 +123,7 @@ exports.namechange = async function(req,res){
         res.ststeMessage = "Not Found";
         res.status(404)
             .send();
-    } else {
+    } else{
         try{
             await  Users.name_modify(id,req.body.username);
             res.statusMessage = "OK";
@@ -136,3 +137,43 @@ exports.namechange = async function(req,res){
         }
     }
 };
+exports.pwchange = async function(req,res) {
+    const id = req.params.id;
+    const check_id = req.authenticatedId;
+    const foundUser = await Users.findByUser(req.body.username, req.body.email);
+    const passwordCorrect = await passwords.compare(req.body.password, foundUser.password);
+    let validation = validator.checkAgainstSchema(
+        'Password',
+        req.body
+    );
+    if(validation === true && !isValidEmail(req.body.email)){
+        validation = "data.email must be a valid email address"
+    }
+    console.log(validation);
+    if(validation!== true){
+        res.stateMessage = 'Bad Request :${validation}';
+        res.status(400)
+            .send();
+    } else if (id != check_id){
+        res.statusMessage = "Forbidden";
+        res.status(403)
+            .send();
+    } else if(passwordCorrect == false) {
+        res.statusMessage = "Not Found";
+        res.status(404)
+            .send();
+    } else {
+        try {
+            await Users.user_pw_change(id, req.body.newpassword);
+            await Users.logout(id)
+            res.statusMessage = "OK";
+            res.status(200)
+                .send();
+        } catch (error) {
+            if (!err.hasBeenLogged) console.error(error);
+            res.statusMessage = 'Internal Server Error';
+            res.status(500)
+                .send();
+        }
+    }
+}
