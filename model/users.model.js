@@ -115,4 +115,12 @@ exports.name_modify = async function(userId,new_name){
         throw err;
     }
 };
-
+exports.user_pw_change = async function(userId,new_pw){
+    const pw_change_sql = "UPDATE User Set user_password = ? WHERE user_id = ?";
+    try{
+        await db.getPool().query(pw_change_sql,[await passwords.hash(new_pw),userId]);
+    } catch (err){
+        errors.logSqlError(err);
+        throw err;
+    }
+};
