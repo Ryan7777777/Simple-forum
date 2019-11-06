@@ -1,16 +1,16 @@
 {
   "User": {
-      "username": {
-        "type": "string",
-        "minLength": 3,
-        "maxLength": 20
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 20
     },
     "email": {
       "type": "string",
       "minlength": 1,
       "format": "email"
     },
-    "given_name":{
+    "given_name": {
       "type": "string",
       "minLength": 1
     },
@@ -29,5 +29,12 @@
       "family_name",
       "password"
     ]
+  },
+  "User_Name_Update": {
+      "username": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 20
+      }
+    }
   }
-}
