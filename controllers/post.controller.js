@@ -25,3 +25,32 @@ exports.create = async function(req,res){
         }
     }
 };
+exports.edit = async function(req,res){
+    const user_id = req.authenticatedId;
+    const author = await Post.author_checker(req.params.id,user_id);
+    let validation = validator.checkAgainstSchema(
+        'Post',
+        req.body
+    );
+    if (validation!== true){
+        res.statusMessage = 'Bad request: ${validation}';
+        res.status(400)
+            .send();
+    } else if (author !== true){
+        res.statusMessage = 'Forbidden';
+        res.status(403)
+            .send();
+    } else{
+        try{
+            await Post.edit_post(req.params.id,req.body.title,req.body.content);
+            res.statusMessage = 'Accepted';
+            res.status(202)
+                .send();
+        } catch(err){
+            console.log(err);
+            res.statusMessage = "Internal Server Error";
+            res.status(500)
+                .send();
+        }
+    }
+};
