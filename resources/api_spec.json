@@ -79,5 +79,17 @@
         "format": "password"
       }
     }
+  },
+  "Comment": {
+    "title": "Post",
+    "type": "object",
+    "properties": {
+      "content": {
+        "type": "string",
+        "minLength": 5,
+        "mmxLength": 750
+      }
+    }
   }
 }
+
