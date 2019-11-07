@@ -8,4 +8,6 @@ module.exports = function (app){
         .patch(authenticate.loginRequired,post.edit);
     app.route(app.rootUrl+'/allpost')
         .get(post.getallpost);
+    app.route(app.rootUrl+'/delete/post/:id')
+        .delete(authenticate.loginRequired,post.deletepost);
 };

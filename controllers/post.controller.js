@@ -68,3 +68,24 @@ exports.getallpost = async function(req,res){
             .send();
     }
 };
+exports.deletepost = async function(req,res) {
+    const user_id = req.authenticatedId;
+    const author = await Post.author_checker(req.params.id, user_id);
+    if (author !== true) {
+        res.statusMessage = 'Forbidden';
+        res.status(403)
+            .send();
+    } else {
+        try {
+            await Post.deletepost(req.params.id);
+            res.statusMessage = 'Ok';
+            res.status(200)
+                .send();
+        } catch (err) {
+            console.log(err);
+            res.statusMessage = "Internal Server Error";
+            res.status(500)
+                .send();
+        }
+    }
+};

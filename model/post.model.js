@@ -41,7 +41,7 @@ exports.edit_post = async function(PostId,title,content){
     }
 };
 exports.allpost = async function(){
-    const get_all_query = "SELECT post_title, post_content, last_update, user_name FROM Post JOIN User ON user = user_id ORDER BY time_posted DESC";
+    const get_all_query = "SELECT post_title, post_content, last_update, user_name FROM Post JOIN User ON user = user_id ORDER BY last_update DESC";
     try{
       const rows = await db.getPool().query(get_all_query);
       return rows.map(row => ({
@@ -51,6 +51,17 @@ exports.allpost = async function(){
             'author': row.user_name
             }));
     } catch(err){
+        errors.logSqlError(err);
+        throw err;
+    }
+};
+exports.deletepost = async function(postId){
+    const delete_allcomment_query = "DELETE FROM Comment Where related_post = ?";
+    const deletepost_query = "DELETE FROM Post WHERE post_id = ?";
+    try{
+        await db.getPool().query(delete_allcomment_query,[postId]);
+        await db.getPool().query(deletepost_query,[postId]);
+    } catch (err){
         errors.logSqlError(err);
         throw err;
     }
