@@ -22,5 +22,6 @@ module.exports = function () {
     //ROUTES//
     require('../routes/users.routes')(app);
     require('../routes/post.routes')(app);
+    require('../routes/comment.routes')(app);
     return app;
 };

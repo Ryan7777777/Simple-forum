@@ -2,7 +2,7 @@ const db = require('../config/db');
 const errors = require('../services/errors');
 
 exports.new_post = async function(title,content,id){
-    const new_post_query = 'INSERT INTO Post (user, post_title, post_content, time_posted) VALUES (?, ?, ?, ?)';
+    const new_post_query = 'INSERT INTO Post (user, post_title, post_content, last_update) VALUES (?, ?, ?, ?)';
     const newpost_data =[
         id,
         title,
@@ -31,7 +31,7 @@ exports.author_checker = async function (PostId,UserId) {
     }
 };
 exports.edit_post = async function(PostId,title,content){
-    const post_edit_query = "UPDATE Post Set post_title = ?,post_content = ?,time_posted = ? WHERE post_id = ?";
+    const post_edit_query = "UPDATE Post Set post_title = ?,post_content = ?,last_update = ? WHERE post_id = ?";
     try{
         db.getPool().query(post_edit_query,[title,content,new Date(),PostId]);
 
@@ -41,7 +41,7 @@ exports.edit_post = async function(PostId,title,content){
     }
 };
 exports.allpost = async function(){
-    const get_all_query = "SELECT post_title, post_content, time_posted, user_name FROM Post JOIN User ON user = user_id ORDER BY time_posted DESC";
+    const get_all_query = "SELECT post_title, post_content, last_update, user_name FROM Post JOIN User ON user = user_id ORDER BY time_posted DESC";
     try{
       const rows = await db.getPool().query(get_all_query);
       return rows.map(row => ({
