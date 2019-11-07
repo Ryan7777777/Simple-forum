@@ -28,3 +28,21 @@ exports.editcomment = async function(Userid,content,Postid){
         return null
     }
 };
+exports.deletecomment = async function(userId,postId){
+    const delete_allcomment_query = "DELETE FROM Comment Where related_user = ? and related_post = ?";
+    try {
+        const row = await db.getPool().query(delete_allcomment_query, [userId, postId]);
+        if (row.changedRows <= 0 && row.affectedRows == 0) {
+            return null;
+        } else if (row.changedRows <= 0) {
+            return false;
+        } else {
+            return true
+        }
+    } catch(error){
+        {
+            errors.logSqlError(error);
+            throw error;
+        }
+    }
+};

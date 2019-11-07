@@ -6,4 +6,6 @@ module.exports = function (app){
         .post(authenticate.loginRequired,comment.newcomment);
     app.route(app.rootUrl+'/editcomment/:id')
         .patch(authenticate.loginRequired,comment.editcomment);
+    app.route(app.rootUrl+'/delete/comment/:id')
+        .delete(authenticate.loginRequired,comment.deletecomment);
 };

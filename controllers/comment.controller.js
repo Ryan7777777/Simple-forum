@@ -60,3 +60,27 @@ exports.editcomment = async function(req,res) {
         }
     }
 };
+exports.deletecomment = async function(req,res) {
+    const user_id = req.authenticatedId;
+    try {
+            const change = await Comment.deletecomment(user_id,req.params.id);
+        if (change === true) {
+            res.stateMessage = "Ok";
+            res.status(200)
+                .send();
+        }else if( change === null){
+            res.stateMessage = "Forbidden";
+            res.status(403)
+                .send();
+        } else{
+            res.stateMessage = "Bad Request";
+            res.status(400)
+                .send();
+        }
+        } catch (err) {
+            console.log(err);
+            res.statusMessage = "Internal Server Error";
+            res.status(500)
+                .send();
+        }
+};
