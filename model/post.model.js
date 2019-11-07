@@ -40,3 +40,18 @@ exports.edit_post = async function(PostId,title,content){
         throw err;
     }
 };
+exports.allpost = async function(){
+    const get_all_query = "SELECT post_title, post_content, time_posted, user_name FROM Post JOIN User ON user = user_id ORDER BY time_posted DESC";
+    try{
+      const rows = await db.getPool().query(get_all_query);
+      return rows.map(row => ({
+            'title': row.post_title,
+            'content': row.post_content,
+            'date': row.time_posted,
+            'author': row.user_name
+            }));
+    } catch(err){
+        errors.logSqlError(err);
+        throw err;
+    }
+};

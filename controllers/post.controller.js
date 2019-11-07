@@ -54,3 +54,17 @@ exports.edit = async function(req,res){
         }
     }
 };
+exports.getallpost = async function(req,res){
+    try{
+        const post =  await Post.allpost();
+        res.statusMessage = "Ok";
+        res.status(200)
+            .json(post)
+            .send();
+    }catch(err){
+        console.log(err);
+        res.statusMessage = "Internal Server Error";
+        res.status(500)
+            .send();
+    }
+};
