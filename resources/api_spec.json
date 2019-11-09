@@ -90,6 +90,16 @@
         "mmxLength": 750
       }
     }
+  },
+  "Message": {
+    "title": "Post",
+    "type": "object",
+    "properties": {
+      "message": {
+        "type": "string",
+        "minLength": 1,
+        "mmxLength": 750
+      }
+    }
   }
 }
-

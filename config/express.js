@@ -23,5 +23,7 @@ module.exports = function () {
     require('../routes/users.routes')(app);
     require('../routes/post.routes')(app);
     require('../routes/comment.routes')(app);
+    require('../routes/message.routes')(app);
+    //require('../routes/usersphoto.routes')(app);
     return app;
 };

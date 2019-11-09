@@ -25,7 +25,6 @@ async function findUserIdByToken(token) {
 
 exports.loginRequired = async function (req, res, next) {
     const token = req.header('X-Authorization');
-
     try {
         const result = await findUserIdByToken(token);
         if (result === null) {
