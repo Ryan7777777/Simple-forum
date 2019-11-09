@@ -2,10 +2,10 @@ const db = require('../config/db');
 const errors = require('../services/errors');
 
 exports.new_comment = async function(Userid,content,Postid){
-    const newpost_sql = "INSERT INTO COMMENT(related_user, related_post, comment_content) VALUES (?, ? ,?)";
+    const newpost_sql = "INSERT INTO COMMENT(related_user, related_post, comment_content,lastupdate) VALUES (?, ? ,?,?)";
     const updatetime_sql = "UPDATE POST Set last_update = ? WHERE post_id = ?";
     try{
-        await db.getPool().query(newpost_sql,[Userid,Postid,content]);
+        await db.getPool().query(newpost_sql,[Userid,Postid,content,new Date()]);
         await db.getPool().query(updatetime_sql,[new Date(),Postid]);
     } catch(err){
         errors.logSqlError(err);
@@ -44,5 +44,18 @@ exports.deletecomment = async function(userId,postId){
             errors.logSqlError(error);
             throw error;
         }
+    }
+};
+exports.allcomment = async function(id){
+    const get_all_query = "SELECT * FROM Comment WHERE related_post = ? ORDER BY lastupdate DESC";
+    try{
+        const rows = await db.getPool().query(get_all_query,id);
+        return rows.map(row => ({
+            'user': row.related_user,
+            'content': row.comment_content
+        }));
+    } catch(err){
+        errors.logSqlError(err);
+        throw err;
     }
 };

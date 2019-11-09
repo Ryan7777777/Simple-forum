@@ -13,7 +13,12 @@ exports.newcomment = async function(req,res){
             .send();
     } else{
         try{
-            await comment.new_comment(user_id,req.body.content,req.params.id);
+            const action = await comment.new_comment(user_id,req.body.content,req.params.id);
+            if(action === null){
+                res.stateMessage = "Forbidden";
+                res.status(403)
+                    .send();
+            }
             res.stateMessage = "Create";
             res.status(201)
                 .send();
@@ -63,7 +68,7 @@ exports.editcomment = async function(req,res) {
 exports.deletecomment = async function(req,res) {
     const user_id = req.authenticatedId;
     try {
-            const change = await Comment.deletecomment(user_id,req.params.id);
+        const change = await comment.deletecomment(user_id,req.params.id);
         if (change === true) {
             res.stateMessage = "Ok";
             res.status(200)
@@ -83,4 +88,18 @@ exports.deletecomment = async function(req,res) {
             res.status(500)
                 .send();
         }
+};
+exports.getallcmment  = async function(req,res){
+    try{
+        const allcomments  = await comment.allcomment(req.params.id);
+        res.statusMessage = 'Ok';
+        res.status(200)
+            .json(allcomments)
+            .send();
+    } catch(error){
+        console.error(error);
+        res.statusMessage = 'Internal Server Error';
+        res.status(500)
+            .send();
+    }
 };

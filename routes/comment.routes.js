@@ -8,4 +8,6 @@ module.exports = function (app){
         .patch(authenticate.loginRequired,comment.editcomment);
     app.route(app.rootUrl+'/delete/comment/:id')
         .delete(authenticate.loginRequired,comment.deletecomment);
+    app.route(app.rootUrl+'/comment/:id')
+        .get(comment.getallcmment);
 };
