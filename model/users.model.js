@@ -53,9 +53,9 @@ exports.login = async function (userId) {
     try {
         await db.getPool().query(loginSQL, [token, userId]);
         return {
-            'userId': userId,
-            'token': token
-        }
+                'userId': userId,
+                'token': token
+            }
     } catch (err) {
         errors.logSqlError(err);
         throw err;
@@ -75,9 +75,9 @@ exports.checkstate = async function(userId,userEmail){
     try{
         const rows = await db.getPool().query(findSQL,[userId,userEmail]);
         if (rows[0].user_authentication !== null){
-            return false
-        }else {
             return true
+        }else {
+            return false
         }
     }catch (err) {
         errors.logSqlError(err);
