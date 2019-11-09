@@ -8,12 +8,12 @@ exports.create = async function(req,res){
         req.body
     );
     if (validation !== true){
-        res.statusMessage = 'Bad request: ${validation}';
+        res.statusMessage = `Bad request: ${validation}`;
         res.status(400)
             .send();
     }  else{
         try{
-           await Post.new_post(req.body.title,req.body.content,id)
+           await Post.new_post(req.body.title,req.body.content,id);
             res.statusMessage = 'Create';
             res.status(201)
              .send();
@@ -33,7 +33,7 @@ exports.edit = async function(req,res){
         req.body
     );
     if (validation!== true){
-        res.statusMessage = 'Bad request: ${validation}';
+        res.statusMessage = `Bad request: ${validation}`;
         res.status(400)
             .send();
     } else if (author !== true){
