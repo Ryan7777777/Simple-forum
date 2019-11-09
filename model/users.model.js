@@ -124,3 +124,17 @@ exports.user_pw_change = async function(userId,new_pw){
         throw err;
     }
 };
+exports.getProfilePhotoFilename = async function(userId){
+    const profile_sql = "SELECT profile_photo FROM user WHERE user_id = ?";
+    try{
+        const rows = await db.getPool().query(profile_sql,userId);
+        if(rows.length < 1){
+            return null
+        } else{
+            return rows[0].profile_photo
+        }
+    } catch(err){
+        errors.logSqlError(err);
+        throw err;
+    }
+}
