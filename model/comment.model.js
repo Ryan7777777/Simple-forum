@@ -59,3 +59,17 @@ exports.allcomment = async function(id){
         throw err;
     }
 };
+exports.author_checker = async function (PostId,UserId) {
+    const post_author_query = 'SELECT * FROM comment WHERE comment_id = ? and related_user = ?';
+    try {
+        const rows = await db.getPool().query(post_author_query,[PostId,UserId]);
+        if (rows[0].title !== null) {
+            return true
+        } else {
+            return false
+        }
+    } catch (err) {
+        errors.logSqlError(err);
+        return null;
+    }
+};
