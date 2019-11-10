@@ -74,7 +74,7 @@ exports.checkstate = async function(userId,userEmail){
     const findSQL = 'SELECT  user_authentication FROM User WHERE user_id = ? or user_email = ?';
     try{
         const rows = await db.getPool().query(findSQL,[userId,userEmail]);
-        if (rows[0].user_authentication !== null){
+        if (rows[0].user_authentication !== false){
             return true
         }else {
             return false

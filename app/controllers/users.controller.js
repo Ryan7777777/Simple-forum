@@ -9,7 +9,6 @@ exports.create = async function(req,res){
         'User/',
         req.body
     );
-    console.log(validation)
     //Valifation for email address
     if(validation === true && !isValidEmail(req.body.email)){
         validation = "data.email must be a valid email address"
@@ -46,6 +45,7 @@ exports.login = async function(req,res) {
             const passwordCorrect = await passwords.compare(req.body.password, foundUser.password);
             if (passwordCorrect) {
                 const nologin = await Users.checkstate(req.body.username, req.body.email)
+                console.log(nologin)
                 if (nologin == true) {
                     const loginResult = await Users.login(foundUser.userId);
                     res.statusMessage = 'OK';
