@@ -137,4 +137,17 @@ exports.getProfilePhotoFilename = async function(userId){
         errors.logSqlError(err);
         throw err;
     }
-}
+};
+exports.setProfilePhotoFilename = async function (userId, photoFilename) {
+    const updateSQL = 'UPDATE User SET profile_photo = ? WHERE user_id = ?';
+
+    try {
+        const result = await db.getPool().query(updateSQL, [photoFilename, userId]);
+        if (result.changedRows !== 1) {
+            throw Error('Should be exactly one user whose profile photo was modified.');
+        }
+    } catch (err) {
+        errors.logSqlError(err);
+        throw err;
+    }
+};
