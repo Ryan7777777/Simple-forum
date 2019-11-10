@@ -10,7 +10,7 @@ const allowCrossOriginRequests = function (req, res, next) {
 
 const jsonParser = bodyParser.json();
 const upload = multer({ limits: { fileSize: 20e6 } });
-const multipartParser = upload.single('photo');  // 20 MB
+const multipartParser = upload.single('image');  // 20 MB
 
 function rawParser (req, res, next) {
     let data = new Buffer('');
