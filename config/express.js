@@ -45,10 +45,10 @@ module.exports = function () {
     app.rootUrl = '/api/v1';
 
     //ROUTES//
-    require('../routes/users.routes')(app);
-    require('../routes/post.routes')(app);
-    require('../routes/comment.routes')(app);
-    require('../routes/message.routes')(app);
-    require('../routes/photos.routes')(app);
+    require('../app/routes/users.routes')(app);
+    require('../app/routes/post.routes')(app);
+    require('../app/routes/comment.routes')(app);
+    require('../app/routes/message.routes')(app);
+    require('../app/routes/photos.routes')(app);
     return app;
 };

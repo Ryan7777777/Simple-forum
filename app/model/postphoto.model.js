@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../../config/db');
 const errors = require('../services/errors');
 
 exports.getPostPhotoLink = async function(postId){

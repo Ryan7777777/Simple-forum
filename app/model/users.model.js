@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../../config/db');
 const passwords = require('../services/passwords');
 const errors = require ('../services/errors')
 const randtoken = require('rand-token');
