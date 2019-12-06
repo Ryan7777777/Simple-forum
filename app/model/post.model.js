@@ -44,12 +44,12 @@ exports.edit_post = async function(PostId,title,content){
     }
 };
 exports.allpost = async function(){
-    const get_all_query = "SELECT post_title, last_update, user_name FROM Post JOIN User ON user = user_id ORDER BY last_update DESC";
+    const get_all_query = "SELECT post_id, post_title, last_update, user_name FROM Post JOIN User ON user = user_id ORDER BY last_update DESC";
     try{
       const rows = await db.getPool().query(get_all_query);
       return rows.map(row => ({
+            'id' : row.post_id,
             'title': row.post_title,
-            'content': row.post_content,
             'date': row.last_update,
             'author': row.user_name
             }));
