@@ -52,7 +52,8 @@ exports.allcomment = async function(id){
         const rows = await db.getPool().query(get_all_query,id);
         return rows.map(row => ({
             'user': row.related_user,
-            'content': row.comment_content
+            'content': row.comment_content,
+            'date': row.lastupdate
         }));
     } catch(err){
         errors.logSqlError(err);
