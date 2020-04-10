@@ -1,6 +1,5 @@
 const users = require('../controllers/users.controller');
 const authenticate = require('../middleware/authenticate');
-
 module.exports = function (app) {
     app.route(app.rootUrl + '/users')
         .post(users.create);
@@ -15,4 +14,6 @@ module.exports = function (app) {
         .patch(authenticate.loginRequired,users.pwchange);
     app.route(app.rootUrl+'/users/checkemail')
         .get(users.emailvalidcheck);
+    app.route(app.rootUrl+'/users/usernamechecker')
+        .get(users.usernamevalidcheck);
 };

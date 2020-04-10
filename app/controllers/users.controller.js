@@ -194,4 +194,22 @@ exports.emailvalidcheck = async function(req,res){
         res.status(500)
             .send();
     }
-}
+};
+exports.usernamevalidcheck = async function(req,res){
+    try {
+        const username = await Users.checkDuplicateUsername(req.body.username);
+        if (username.length > 0) {
+            res.statusMessage = "Conflict";
+            res.status(409)
+                .send()
+        } else {
+            res.statusMessage = "Ok";
+            res.status(200)
+                .send()
+        }
+    }catch(error){
+        res.statusMessage = "Internal Server Error";
+        res.status(500)
+            .send();
+        }
+};

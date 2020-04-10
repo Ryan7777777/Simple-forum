@@ -2,11 +2,8 @@ const db = require('../../config/db');
 const passwords = require('../services/passwords');
 const errors = require ('../services/errors')
 const randtoken = require('rand-token');
-
-
 exports.create = async function (user) {
     const createSQL = 'INSERT INTO User (user_name, user_email, user_first_name, user_last_name, user_password) VALUES (?, ?, ?, ?, ?)';
-
     const userData = [
         user.username,
         user.email,
@@ -25,7 +22,6 @@ exports.create = async function (user) {
 exports.findByUser = async function (username, email) {
     const findSQL = 'SELECT user_id, user_name, user_first_name, user_last_name, user_password, user_email ' +
         'FROM User WHERE user_name = ? OR user_email = ?';
-
     try {
         const rows = await db.getPool().query(findSQL, [username, email]);
         if (rows.length < 1) {
@@ -87,7 +83,6 @@ exports.checkstate = async function(userId,userEmail){
 exports.findById = async function (userId) {
     const findSQL = 'SELECT  user_name, user_first_name, user_last_name, user_email ' +
         'FROM User WHERE user_id = ?';
-
     try {
         const rows = await db.getPool().query(findSQL, [userId]);
         if (rows.length < 1) {
@@ -140,7 +135,6 @@ exports.getProfilePhotoFilename = async function(userId){
 };
 exports.setProfilePhotoFilename = async function (userId, photoFilename) {
     const updateSQL = 'UPDATE User SET profile_photo = ? WHERE user_id = ?';
-
     try {
         const result = await db.getPool().query(updateSQL, [photoFilename, userId]);
         if (result.changedRows !== 1) {
@@ -153,7 +147,6 @@ exports.setProfilePhotoFilename = async function (userId, photoFilename) {
 };
 exports.checkDuplicateEamil = async function (email){
     const checkguplicateemailsql = 'SELECT * FROM User where user_email = ?';
-
     try{
         const result = await db.getPool().query(checkguplicateemailsql,[email]);
         return result
@@ -161,4 +154,14 @@ exports.checkDuplicateEamil = async function (email){
         errors.logSqlError(err);
         throw err;
     }
-}
+};
+exports.checkDuplicateUsername = async function (username){
+    const checkguplicateUsernamesql = 'SELECT * FROM User where user_name = ?';
+    try{
+        const result = await db.getPool().query(checkguplicateUsernamesql,[username]);
+        return result
+    } catch (err){
+        errors.logSqlError(err);
+        throw err;
+    }
+};
