@@ -15,7 +15,6 @@ async function testDbConnection() {
         process.exit(1);
     }
 }
-
 testDbConnection()
     .then(function () {
         app.listen(port, function () {

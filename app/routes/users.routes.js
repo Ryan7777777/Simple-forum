@@ -13,4 +13,6 @@ module.exports = function (app) {
         .patch(authenticate.loginRequired,users.namechange);
     app.route(app.rootUrl+'/users/pwchange/:id')
         .patch(authenticate.loginRequired,users.pwchange);
+    app.route(app.rootUrl+'/users/checkemail')
+        .get(users.emailvalidcheck);
 };

@@ -151,3 +151,14 @@ exports.setProfilePhotoFilename = async function (userId, photoFilename) {
         throw err;
     }
 };
+exports.checkDuplicateEamil = async function (email){
+    const checkguplicateemailsql = 'SELECT * FROM User where user_email = ?';
+
+    try{
+        const result = await db.getPool().query(checkguplicateemailsql,[email]);
+        return result
+    } catch (err){
+        errors.logSqlError(err);
+        throw err;
+    }
+}

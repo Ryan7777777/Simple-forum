@@ -165,7 +165,7 @@ exports.pwchange = async function(req,res) {
     } else {
         try {
             await Users.user_pw_change(id, req.body.newpassword);
-            await Users.logout(id)
+            await Users.logout(id);
             res.statusMessage = "OK";
             res.status(200)
                 .send();
@@ -175,5 +175,23 @@ exports.pwchange = async function(req,res) {
             res.status(500)
                 .send();
         }
+    }
+};
+exports.emailvalidcheck = async function(req,res){
+    try{
+        const email = await Users.checkDuplicateEamil(req.body.email);
+        if(email.length >0 ){
+            res.statusMessage = "Conflict";
+            res.status(409)
+                .send()
+        } else{
+            res.statusMessage = "Ok";
+            res.status(200)
+                .send()
+        }
+    } catch (error){
+        res.statusMessage = "Internal Server Error";
+        res.status(500)
+            .send();
     }
 }
