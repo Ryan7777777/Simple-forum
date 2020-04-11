@@ -24,6 +24,7 @@ exports.create = async function(req,res){
             res.status(201)
                 .json({userId});
         } catch (err) {
+            console.log(err)
             if (err.sqlMessage && err.sqlMessage.includes('Duplicate entry')) {
                 // Either username or email was already in use
                 res.statusMessage = 'Bad Request: username or email already in use';
@@ -180,13 +181,17 @@ exports.pwchange = async function(req,res) {
 exports.emailvalidcheck = async function(req,res){
     try{
         const email = await Users.checkDuplicateEamil(req.body.email);
-        if(email.length >0 ){
+        if(email.length > 0){
             res.statusMessage = "Conflict";
             res.status(409)
                 .send()
-        } else{
+        } else if (email.length === 0){
             res.statusMessage = "Ok";
             res.status(200)
+                .send()
+        } else {
+            res.statusMessage = "Bad request";
+            res.status(400)
                 .send()
         }
     } catch (error){
@@ -196,20 +201,26 @@ exports.emailvalidcheck = async function(req,res){
     }
 };
 exports.usernamevalidcheck = async function(req,res){
-    try {
-        const username = await Users.checkDuplicateUsername(req.body.username);
-        if (username.length > 0) {
-            res.statusMessage = "Conflict";
-            res.status(409)
-                .send()
-        } else {
-            res.statusMessage = "Ok";
-            res.status(200)
-                .send()
+    if (req.body.username === undefined){
+        res.statusMessage = "Bad request";
+        res.status(400)
+            .send()
+    } else{
+        try {
+            const username = await Users.checkDuplicateUsername(req.body.username);
+            if (username.length > 0) {
+                res.statusMessage = "Conflict";
+                res.status(409)
+                    .send()
+            } else {
+                res.statusMessage = "Ok";
+                res.status(200)
+                    .send()
+            }
+        }catch(error){
+            res.statusMessage = "Internal Server Error";
+            res.status(500)
+                .send();
         }
-    }catch(error){
-        res.statusMessage = "Internal Server Error";
-        res.status(500)
-            .send();
-        }
+    }
 };

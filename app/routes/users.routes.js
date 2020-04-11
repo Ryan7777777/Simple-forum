@@ -13,7 +13,7 @@ module.exports = function (app) {
     app.route(app.rootUrl+'/users/pwchange/:id')
         .patch(authenticate.loginRequired,users.pwchange);
     app.route(app.rootUrl+'/users/checkemail')
-        .get(users.emailvalidcheck);
+        .post(users.emailvalidcheck);
     app.route(app.rootUrl+'/users/usernamechecker')
-        .get(users.usernamevalidcheck);
+        .post(users.usernamevalidcheck);
 };
