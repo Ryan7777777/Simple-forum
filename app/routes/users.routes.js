@@ -8,7 +8,7 @@ module.exports = function (app) {
     app.route(app.rootUrl + '/users/logout')
         .post(authenticate.loginRequired,users.logout);
     app.route(app.rootUrl +'/users/namechange/:id')
-        .get(authenticate.setAuthenticatedUser,users.getinfo)
+        .get(authenticate.setAuthenticatedUser,users.getuserinfo)
         .patch(authenticate.loginRequired,users.namechange);
     app.route(app.rootUrl+'/users/pwchange/:id')
         .patch(authenticate.loginRequired,users.pwchange);
@@ -16,4 +16,6 @@ module.exports = function (app) {
         .post(users.emailvalidcheck);
     app.route(app.rootUrl+'/users/usernamechecker')
         .post(users.usernamevalidcheck);
+    app.route(app.rootUrl+'/users/userinfo/:id')
+        .get(users.getuserinfo);
 };

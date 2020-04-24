@@ -90,7 +90,7 @@ exports.logout = async function(req,res) {
             }
     }
 };
-exports.getinfo = async function (req, res) {
+exports.getuserinfo = async function (req, res) {
     const id = req.params.id;
     const isCurrentUser = id === req.authenticatedUserId;
     const userData = await Users.findById(id, isCurrentUser);
