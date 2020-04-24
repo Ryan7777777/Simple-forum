@@ -89,7 +89,7 @@ exports.deletecomment = async function(req,res) {
                 .send();
         }
 };
-exports.getallcmment  = async function(req,res){
+exports.getallcomment  = async function(req,res){
     try{
         const allcomments  = await comment.allcomment(req.params.id);
         res.statusMessage = 'Ok';

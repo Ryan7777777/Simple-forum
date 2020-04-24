@@ -9,5 +9,5 @@ module.exports = function (app){
     app.route(app.rootUrl+'/delete/comment/:id')
         .delete(authenticate.loginRequired,comment.deletecomment);
     app.route(app.rootUrl+'/comment/:id')
-        .get(comment.getallcmment);
+        .get(comment.getallcomment);
 };
