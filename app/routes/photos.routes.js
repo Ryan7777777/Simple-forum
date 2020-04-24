@@ -14,6 +14,7 @@ module.exports = function (app){
     app.route(app.rootUrl+'/post/:id/photo/:filename')
         .get(postPhotos.getPostPhotos);
     app.route(app.rootUrl+'/comment/:id/photo')
+        .get(commentPhotos.commentPhotosFileName)
         .post(authenticate.loginRequired,commentPhotos.addPostPhoto);
     app.route(app.rootUrl+'/comment/:id/photodelete/:filename')
         .delete(authenticate.loginRequired,commentPhotos.deletePostPhoto);

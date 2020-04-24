@@ -3,6 +3,19 @@ const Photos =require("../model/photos.models");
 const tools = require('../services/tools');
 const CommnetPhoto =require('../model/commentphoto.model');
 
+exports.commentPhotosFileName = async function(req,res){
+    const CommentId = req.params.id;
+    try{
+        const photoFilenames = await CommnetPhoto.getAllCommentPhotoName(CommentId);
+        res.status(200)
+        .json(photoFilenames)
+        .send()
+    } catch(err){
+        console.log(err)
+        .status(400)
+        .send()
+    }
+}
 exports.getPostPhotos = async function (req,res){
     const CommentId = req.params.id;
     const photoFilename = req.params.filename;

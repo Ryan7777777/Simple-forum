@@ -1,6 +1,18 @@
 const db = require('../../config/db');
 const errors = require('../services/errors');
 
+exports.getAllCommentPhotoName = async function(commentId){
+    const getAllPhotos = 'SELECT file_name FROM comment_photos WHERE related_comment = ? ORDER BY uploadtime ASC';
+    try{
+        const rows = await db.getPool().query(getAllPhotos,commentId)
+        return rows.map(row => ({
+            'fileName' : row.file_name
+            }));
+
+    } catch (err){
+        console.log(err)
+    }
+}
 exports.getCommnetPhotoLink = async function(commentId){
     const getcommentphoto = 'SELECT file_name FROM comment_photos WHERE related_comment = ? ORDER BY uploadtime ASC';
     try{
